@@ -1,28 +1,13 @@
 const express = require('express');
 
+// Importando o arquivo com as rotas para o server usar. Chamando a pasta que já vai ler o arquivo index
+const routes = require('./routes')
+
 const app = express()
+app.use(express.json())
 
-app.get('/', (request, response) => {
-    response.send('Você está no NodeJS')
-})
-
-app.get('/message', (request, response) => {
-    response.send('Hello World! Uma mensagem de Ronaldo Cysne')
-})
-
-// Route Params
-app.get('/product/:id/:user', (request, response) => {
-    const {id, user} = request.params
-    response.send(`Hello ${user}, o id do seu produto é ${id}`)
-})
-
-// Query Params
-app.get('/users', (request, response) => {
-    const { page, limit } = request.query;
-    response.send(`
-        Página ${page}, com limite de ${limit} usuários por página.
-    `)
-})
+// 1 - App utilizando as rotas - mostrando aonde elas estão
+app.use(routes)
 
 
 const PORT = 3333;

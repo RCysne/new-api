@@ -4,6 +4,8 @@ const express = require('express');
 // Inicializando o express
 const app = express()
 
+app.use(express.json())
+
 
 // Método-rota------função com a requisição e a resposta
 app.get('/message', (request, response) => {
@@ -35,6 +37,14 @@ app.get('/users', (request, response) => {
     response.send(`
         Página ${page}. Mostrar: ${limit}
     `)
+})
+
+// Depois de criar o body no insomnia, acessar por aqui 
+app.post("/user", (request, response) => {
+    const { name, email, password } = request.body // Dados da api no insomnia desestruturados, onde é necessário avisar ao node que os dados estão vindo no padrão json - linha 7
+    // E posso responder com o send (formato text html), ou no formato json (padrão utilizado nas respostas de uma api)
+    response.send(`Logado na conta de ${name}, com o email ${email}`)
+    response.json({name, email})
 })
 
 
