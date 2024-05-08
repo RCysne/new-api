@@ -1,7 +1,7 @@
 // Arquivo responsável pelo gerenciamento das rotas da aplicação. Importando o Router e o arquivo com as rotas (usersRoutes)
+
 const { Router } = require("express");
 const usersRouter = require("./users.routes")
-
 
 const routes = Router()
 
