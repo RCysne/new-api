@@ -1,22 +1,24 @@
 // Importando no início a dependência de tratamento de erro
 require('express-async-error');
 
+const database = require("./database/sqlite")
+
 const AppError = require("./utils/AppError")
 
 
 const express = require('express');
-const app = express()
 
 // Importando o arquivo com as rotas para o server usar. Chamando a pasta que já vai ler o arquivo index
 const routes = require('./routes')
 
+const app = express()
 app.use(express.json())
 
 // 1 - App utilizando as rotas - mostrando aonde elas estão
 app.use(routes)
 
 
-
+database(); // Executando o banco de dados
 
 // Tratamento dos erros pelo servidor
 // O parâmetro error captura o erro da requisição
