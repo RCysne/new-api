@@ -1,5 +1,5 @@
 class AppError {
-    // Criando as variáveis globais necessárias
+    // Criando as variáveis globais para ficarem acessíveis
     message;
     statusCode;
 

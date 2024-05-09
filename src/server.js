@@ -1,3 +1,9 @@
+// Importando no início a dependência de tratamento de erro
+require('express-async-error');
+
+const AppError = require("./utils/AppError")
+
+
 const express = require('express');
 const app = express()
 
@@ -9,6 +15,28 @@ app.use(express.json())
 // 1 - App utilizando as rotas - mostrando aonde elas estão
 app.use(routes)
 
+
+
+
+// Tratamento dos erros pelo servidor
+// O parâmetro error captura o erro da requisição
+app.use((error, request, response, next) => {
+
+    // Se o erro estiver instanciado no AppError (lógica solicitando as informações do cliente)
+    if (error instanceof AppError) {
+        return response.status(error.statusCode).json({
+            status: "error",
+            message: error.message
+        })
+    }
+    
+    console.error(error)
+
+    return response.status(500).json({
+        status: "error",
+        message: "Internal server error!"
+    })
+})
 
 const PORT = 3333;
 

@@ -1,3 +1,5 @@
+const AppError = require('../utils/AppError')
+
 class UsersController {
 /*  PADRÃO DE UMA CLASSE CONTROLLER - NO MÁXIMO 5 MÉTODOS (5 FUNÇÕES) -
 
@@ -15,6 +17,12 @@ O controller é que possui a responsabilidade de processar as informações (ló
 
         
         const { name, email, password } = request.body
+
+        if (!name) {
+            throw new AppError("O nome é obrigatório!")
+        }
+
+
         // O uso do status code, é opcional
         response.status(201).json({name, email, password})
     }
