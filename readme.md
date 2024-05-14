@@ -28,3 +28,5 @@ Depois de criada a conexão, é no server que ela é utilizada
 
 Quando a aplicação faz uma chamada ao banco de dados, a função é chamada dentro do index. É assíncrona pq o banco é uma aplicação externa. Na função definimos uma variável chamada database que é como se fosse uma placa que deixando claro para a sua aplicação que ela é o banco de dados, diz o endereço e que para conversar com ela tem que usar aquela linguagem. Aí vem a sintaxe dentro da variável
 Quando o sqlite.open é usado, a aplicação está abrindo uma conexão com o sqlite (falando: vamos conversar?). Mas para pedir os dados é necessário saber aonde o arquivo está, por isso o filename, e tem que saber como conversar, essa é a função do driver
+
+Dependência bcryptjs serve para criptografar algum dado sensível no banco de dados

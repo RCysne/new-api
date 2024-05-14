@@ -2,23 +2,25 @@
 const { Router } = require("express");
 
 // Importando o arquivo controller para poder utilizar
-const UsersController = require("../controllers/UserController");
+const UsersController = require("../controllers/UsersController");
 
 const usersRoutes = Router()
 
 /* Middlewares
 Funções de verificações e controles. Verifica a requisição, a permissão, pode devolver uma resposta, bloquear a requisição, e se for continuar vai chama o next (continuação do processo, do fluxo) 
 */
-function middleWare(request, response, next) {
-    console.log('Middleware is running!')
-    const email = request.body.email;
-    const pass = request.body.password;
+// function middleWare(request, response, next) {
+//     console.log('Middleware is running!')
+//     const email = request.body.email;
+//     const pass = request.body.password;
 
-    console.log(`
-        Login: ${email} 
-        Senha: ${pass}
-    `);
-    next();
+//     console.log(`
+//         Login: ${email} 
+//         Senha: ${pass}
+//     `);
+//     next();
+// }
+
 
     /* Exemplo de Middleware 
     O return é para que se entrar na função ele encerre o processo
@@ -28,7 +30,7 @@ function middleWare(request, response, next) {
     }
     next(); 
     E na rota depois chama a função, entre a rota e a função a ser executada*/
-}
+
 
 
 
@@ -41,7 +43,7 @@ const usersController = new UsersController()
 
 
 // 3 - Chegando no arquivo, ele verifica que a rota é na raiz e segue o fluxo
-usersRoutes.post("/", middleWare, usersController.create //utilizando o método create do controller
+usersRoutes.post("/", usersController.create //utilizando o método create do controller
     
     
     /*Reponsabilidade do processamento foi para o controller

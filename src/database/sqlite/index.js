@@ -5,7 +5,7 @@ const sqlite3 = require("sqlite3"); // Versão
 // Esse sqlite é o responsável pela conexão
 const sqlite = require("sqlite"); // Linguagem
 
-const path = require("path") // Local do db
+const path = require("path") // Biblioteca para padronizar o local do db
 
 
 // Função assíncrona para a conexão com o banco de dados. Se ele não existir, ele vai criar o arquivo de um banco vazio
@@ -25,4 +25,4 @@ async function sqliteConnection() {
 
 }
 
-module.exports = sqliteConnection;
+module.exports = sqliteConnection

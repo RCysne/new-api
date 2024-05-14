@@ -1,7 +1,7 @@
 // Importando no início a dependência de tratamento de erro
-require('express-async-error');
+require("express-async-errors");
 
-const database = require("./database/sqlite")
+const migrationsRun = require("./database/sqlite/migrations")
 
 const AppError = require("./utils/AppError")
 
@@ -11,6 +11,10 @@ const express = require('express');
 // Importando o arquivo com as rotas para o server usar. Chamando a pasta que já vai ler o arquivo index
 const routes = require('./routes')
 
+migrationsRun(); // Executando o banco de dados
+
+
+
 const app = express()
 app.use(express.json())
 
@@ -18,7 +22,11 @@ app.use(express.json())
 app.use(routes)
 
 
-database(); // Executando o banco de dados
+
+
+
+
+
 
 // Tratamento dos erros pelo servidor
 // O parâmetro error captura o erro da requisição
@@ -36,9 +44,14 @@ app.use((error, request, response, next) => {
 
     return response.status(500).json({
         status: "error",
-        message: "Internal server error!"
+        message: "Internal server error! - Outro erro!"
     })
 })
+
+
+
+
+
 
 const PORT = 3333;
 
