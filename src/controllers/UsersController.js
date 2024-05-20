@@ -13,7 +13,6 @@ O controller é que possui a responsabilidade de processar as informações (ló
 
 const { hash } = require("bcryptjs") // O hash faz a função de criptografar
 
-
 const AppError = require('../utils/AppError')
 
 // Importando a conexão com o banco de dados
@@ -53,6 +52,45 @@ class UsersController {
 
         // O uso do status code, é opcional
         // response.status(201).json({name, email, password})
+    }
+
+    async update(request, response) {
+        const { name, email } = request.body;
+        const { id } = request.params;
+
+        // Concexão com o banco de dados
+        const database = await sqliteConnection();
+
+        // ID do usuário igual ao id que está sendo passado nos parâmetros
+        const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]);
+
+        // Se o usuário não existir, lançar mensagem de erro
+        if (!user) {
+            throw new AppError("Usuário não encontrado!")
+        }
+        
+        // procurando no banco de dados se o email do usuário já existe
+        const userWithUpdatedEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email]);
+        
+        // verificando se o usuário está tentando alterar seu email para um que já exista
+        if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
+            throw new AppError("Este email já está em uso.")
+        }
+
+        user.name = name;
+        user.email = email;
+
+        await database.run(`
+            UPDATE users SET
+            name = ?,
+            email = ?,
+            updated_at = ?,
+            WHERE id = ?`,
+            [user.name, user.email, new Date(), id]);
+
+
+        return response.json()
+
     }
 }
 

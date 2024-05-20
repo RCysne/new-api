@@ -43,16 +43,20 @@ const usersController = new UsersController()
 
 
 // 3 - Chegando no arquivo, ele verifica que a rota é na raiz e segue o fluxo
-usersRoutes.post("/", usersController.create //utilizando o método create do controller
-    
-    
-    /*Reponsabilidade do processamento foi para o controller
+usersRoutes.post("/", usersController.create); //utilizando o método create do controller
 
-        (request, response) => {
-        const { name, email, password } = request.body
-        response.json({name, email, password})}*/
+
+
+/*Reponsabilidade do processamento foi para o controller
+
+(request, response) => {
+    const { name, email, password } = request.body
+    response.json({name, email, password})}*/
     
-)
+    
+    
+
+usersRoutes.put("/:id", usersController.update);
 
 // Exportando para qualquer arquivo utilizar
 module.exports = usersRoutes;
