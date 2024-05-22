@@ -11,7 +11,7 @@ O controller é que possui a responsabilidade de processar as informações (ló
 
 
 
-const { hash } = require("bcryptjs") // O hash faz a função de criptografar
+const { hash, compare } = require("bcryptjs") // O hash faz a função de criptografar
 
 const AppError = require('../utils/AppError')
 
@@ -55,7 +55,7 @@ class UsersController {
     }
 
     async update(request, response) {
-        const { name, email } = request.body;
+        const { name, email, password, old_password } = request.body;
         const { id } = request.params;
 
         // Concexão com o banco de dados
@@ -77,16 +77,36 @@ class UsersController {
             throw new AppError("Este email já está em uso.")
         }
 
-        user.name = name;
-        user.email = email;
+        // Se existir conteúdo dentro do name, ele vai ser utilizado, se não existir conteúdo, o user.name(valor anterior), é que vai ser utilizado. Nullish Coalescing Operator
+        user.name = name ?? user.name;
+        user.email = email ?? user.email;
+
+        // Informando a senha nova, mas não enviando a senha antiga
+        if (password && !old_password) {
+            throw new AppError('Você precisa informar a senha antiga para definir uma nova senha!')
+        }
+
+        // Verificando se a senha antiga está correta
+        if (password && old_password) {
+            // Como estão criptografadas, se utiliza o compare
+            const checkOldPassword = await compare(old_password, user.password);
+
+            if (!checkOldPassword) {
+                throw new AppError('A senha antiga não confere');
+            }
+
+            // Alterando e criptografando a nova senha
+            user.password = await hash(password, 8)
+        }
 
         await database.run(`
             UPDATE users SET
             name = ?,
             email = ?,
-            updated_at = ?,
+            password = ?,
+            updated_at = DATETIME('now')
             WHERE id = ?`,
-            [user.name, user.email, new Date(), id]);
+            [user.name, user.email, user.password, id]);
 
 
         return response.json()
