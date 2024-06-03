@@ -30,3 +30,8 @@ Quando a aplicação faz uma chamada ao banco de dados, a função é chamada de
 Quando o sqlite.open é usado, a aplicação está abrindo uma conexão com o sqlite (falando: vamos conversar?). Mas para pedir os dados é necessário saber aonde o arquivo está, por isso o filename, e tem que saber como conversar, essa é a função do driver
 
 Dependência bcryptjs serve para criptografar algum dado sensível no banco de dados
+
+Criando as migrations
+npx knex migrate:make nome_do_arquivo
+
+para adicionar ao banco de dados o arquivo, rodo o comando do migrate no package json - npm run migrate (vide comando no package json)
